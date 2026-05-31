@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Your Products</title>
+    <style>
+        /* --- Minimalist & Modern Styling --- */
+        :root {
+            --primary-color: #111111; 
+            --bg-color: #fafafa;      
+            --card-bg: #ffffff;
+            --text-muted: #666666;
+            --border-color: #e0e0e0;
+            --whatsapp-color: #25D366;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        @media (min-width: 992px) {
+            .container {
+                grid-template-columns: 1.4fr 1fr;
+                align-items: start;
+            }
+        }
+
+        /* --- New Lookbook Grid (2x2 Layout for the 4 Products) --- */
+        .lookbook-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        @media (min-width: 600px) {
+            .lookbook-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* --- Individual Product Card Style --- */
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .card-main-image {
+            width: 100%;
+            border-radius: 6px;
+            background-color: #eaeaea;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+        }
+
+        /* Mini thumbnail grid inside each product card */
+        .card-thumb-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .mini-thumb-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .mini-thumb {
+            width: 100%;
+            border-radius: 4px;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            border: 1px solid var(--border-color);
+        }
+
+        .mini-thumb:hover { opacity: 0.7; }
+
+        .mini-ref {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .card-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4px;
+        }
+
+        .card-title { font-size: 1.1rem; font-weight: 600; }
+        .card-price { font-size: 1.1rem; font-weight: 700; color: var(--primary-color); }
+
+        /* --- Order Form Card --- */
+        .order-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+            position: sticky;
+            top: 40px; /* Keeps form visible while scrolling through items */
+        }
+
+        .order-card h2 { font-size: 1.4rem; margin-bottom: 20px; font-weight: 600; }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: #fff;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: var(--whatsapp-color);
+            color: #fff;
+            border: none;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .submit-btn:hover { background-color: #20ba5a; }
+        .submit-btn:disabled { background-color: #a5d6b4; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <section class="lookbook-grid">
+            
+            <div class="product-card">
+                <img class="card-main-image" id="img-ref001" src="../images/r001.png" alt="REF-001 Display">
+                <div class="card-details">
+                    <span class="card-title">Model REF-001</span>
+                    <span class="card-price">1800 DZD</span>
+                </div>
+                <div class="card-thumb-grid">
+                    <div class="mini-thumb-container">
+                        <img class="mini-thumb" src="../images/r00001.jpg" onclick="changeCardPhoto('img-ref001', this.src, 'REF-001')" alt="Color 1">
+                        <span class="mini-ref">Gold</span>
+                    </div>
+                    <div class="mini-thumb-container">
+                        <img class="mini-thumb" src="../images/r0001.png" onclick="changeCardPhoto('img-ref001', this.src, 'REF-001-S')" alt="Color 2">
+                        <span class="mini-ref">Silver</span>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img class="card-main-image" id="img-ref002" src="../images/r02.png" alt="REF-002 Display">
+                <div class="card-details">
+                    <span class="card-title">Model REF-002</span>
+                    <span class="card-price">1800 DZD</span>
+                </div>
+                <div class="card-thumb-grid">
+                    <div class="mini-thumb-container">
+                        <img class="mini-thumb" src="../images/r002.jpg" onclick="changeCardPhoto('img-ref002', this.src, 'REF-002')" alt="Color 1">
+                        <span class="mini-ref">Gold</span>
+                    </div>
+                    <div class="mini-thumb-container">
+                        <img class="mini-thumb" src="https://via.placeholder.com/150/efefef" onclick="changeCardPhoto('img-ref002', this.src, 'REF-002-S')" alt="Color 2">
+                        <span class="mini-ref">Silver</span>
+                    </div>
+                   
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img class="card-main-image" id="img-ref003" src="../images/r03.jpg" alt="REF-003 Display">
+                <div class="card-details">
+                    <span class="card-title">Model REF-003</span>
+                    <span class="card-price">2000 DZD</span>
+                </div>
+                <div class="card-thumb-grid">
+                    <div class="mini-thumb-container">
+                        <img class="mini-thumb" src="https://via.placeholder.com/600/aaa" onclick="changeCardPhoto('img-ref003', this.src, 'REF-003')" alt="Color 1">
+                        <span class="mini-ref">Base</span>
+                    </div>
+                    <div class="mini-thumb-container">
+                        <img class="mini-thumb" src="https://via.placeholder.com/150/ffccff" onclick="changeCardPhoto('img-ref003', this.src, 'REF-003-P')" alt="Color 2">
+                        <span class="mini-ref">Pink</span>
+                    </div>
+                    <div class="mini-thumb-container">
+                        <img class="mini-thumb" src="https://via.placeholder.com/150/ffffcc" onclick="changeCardPhoto('img-ref003', this.src, 'REF-003-Y')" alt="Color 3">
+                        <span class="mini-ref">Yellow</span>
+                    </div>
+                    <div class="mini-thumb-container">
+                        <img class="mini-thumb" src="https://via.placeholder.com/150/ffddcc" onclick="changeCardPhoto('img-ref003', this.src, 'REF-003-O')" alt="Color 4">
+                        <span class="mini-ref">Orange</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img class="card-main-image" id="img-ref004" src="../images/r04.png" alt="REF-004 Display">
+                <div class="card-details">
+                    <span class="card-title">Model REF-004</span>
+                    <span class="card-price">1500 DZD</span>
+                </div>
+                <div class="card-thumb-grid">
+                    <div class="mini-thumb-container">
+                        <img class="mini-thumb" src="https://via.placeholder.com/600/aaa" onclick="changeCardPhoto('img-ref004', this.src, 'REF-004')" alt="Color 1">
+                        <span class="mini-ref">Base</span>
+                    </div>
+                    <div class="mini-thumb-container">
+                        <img class="mini-thumb" src="https://via.placeholder.com/150/e0ccff" onclick="changeCardPhoto('img-ref004', this.src, 'REF-004-PR')" alt="Color 2">
+                        <span class="mini-ref">Purple</span>
+                    </div>
+                    <div class="mini-thumb-container">
+                        <img class="mini-thumb" src="https://via.placeholder.com/150/cceeff" onclick="changeCardPhoto('img-ref004', this.src, 'REF-004-C')" alt="Color 3">
+                        <span class="mini-ref">Cyan</span>
+                    </div>
+                    <div class="mini-thumb-container">
+                        <img class="mini-thumb" src="https://via.placeholder.com/150/ffe6cc" onclick="changeCardPhoto('img-ref004', this.src, 'REF-004-N')" alt="Color 4">
+                        <span class="mini-ref">Nude</span>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="order-card">
+            <h2>Complete Your Order</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">
+                Your order logs instantly to our database, and we'll connect on WhatsApp to confirm delivery.
+            </p>
+            
+            <form id="hybridOrderForm">
+                
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="client_name" placeholder="e.g., John Doe" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone_number" placeholder="e.g., 0550 00 00 00" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="client_email" placeholder="e.g., name@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Delivery Address / State</label>
+                    <input type="text" id="location" name="delivery_location" placeholder="e.g., Algiers, Batna" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="deliveryType">Delivery Type</label>
+                    <select id="deliveryType" name="delivery_type" required>
+                        <option value="Home Delivery">Home Delivery (À Domicile)</option>
+                        <option value="Desk / Office Pick-up">Desk / Stop Desk Pick-up</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="productSelect">Choose Product Model & Color Variation</label>
+                    <select id="productSelect" name="item_reference" required>
+                        <optgroup label="Model REF-001 Options">
+                            <option value="REF-001" data-name="REF-001 (Gold)" data-price="1500 DZD">REF-001 MONOCHROME (1500 DZD)</option>
+                            <option value="REF-001-S" data-name="REF-001 (Silver)" data-price="1500 DZD">REF-001 Silver (1500 DZD)</option>
+                            <option value="REF-001-R" data-name="REF-001 (Rose)" data-price="1500 DZD">REF-001 Rose Gold (1500 DZD)</option>
+                            <option value="REF-001-B" data-name="REF-001 (Black)" data-price="1500 DZD">REF-001 Matte Black (1500 DZD)</option>
+                        </optgroup>
+                        <optgroup label="Model REF-002 Options">
+                            <option value="REF-002" data-name="REF-002 (Gold)" data-price="1800 DZD">REF-002 MONOCHROME (1800 DZD)</option>
+                            <option value="REF-002-S" data-name="REF-002 (Silver)" data-price="1800 DZD">REF-002 Silver (1800 DZD)</option>
+                            <option value="REF-002-G" data-name="REF-002 (Green)" data-price="1800 DZD">REF-002 Emerald Green (1800 DZD)</option>
+                            <option value="REF-002-BL" data-name="REF-002 (Blue)" data-price="1800 DZD">REF-002 Royal Blue (1800 DZD)</option>
+                        </optgroup>
+                        <optgroup label="Model REF-003 Options">
+                            <option value="REF-003" data-name="REF-003 (Base)" data-price="2000 DZD">REF-003 MONOCHROME (2000 DZD)</option>
+                            <option value="REF-003-P" data-name="REF-003 (Pink)" data-price="2000 DZD">REF-003 Pastel Pink (2000 DZD)</option>
+                            <option value="REF-003-Y" data-name="REF-003 (Yellow)" data-price="2000 DZD">REF-003 Bright Yellow (2000 DZD)</option>
+                            <option value="REF-003-O" data-name="REF-003 (Orange)" data-price="2000 DZD">REF-003 Amber Orange (2000 DZD)</option>
+                        </optgroup>
+                        <optgroup label="Model REF-004 Options">
+                            <option value="REF-004" data-name="REF-004 (Base)" data-price="2200 DZD">REF-004 MONOCHROME (2200 DZD)</option>
+                            <option value="REF-004-PR" data-name="REF-004 (Purple)" data-price="2200 DZD">REF-004 Deep Purple (2200 DZD)</option>
+                            <option value="REF-004-C" data-name="REF-004 (Cyan)" data-price="2200 DZD">REF-004 Bright Cyan (2200 DZD)</option>
+                            <option value="REF-004-N" data-name="REF-004 (Nude)" data-price="2200 DZD">REF-004 Classic Nude (2200 DZD)</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <button type="submit" id="submitBtn" class="submit-btn">Confirm & Send via WhatsApp</button>
+            </form>
+        </section>
+
+    </div>
+
+    <script>
+        // NEW: Targets individual card main images independently and updates form value selector seamlessly
+        function changeCardPhoto(cardImgId, newSrc, dropdownValue) {
+            // Update the preview photo within that specific lookbook item box
+            document.getElementById(cardImgId).src = newSrc;
+            
+            // Sync the select dropdown options automatically
+            const select = document.getElementById('productSelect');
+            select.value = dropdownValue;
+        }
+
+        // --- HYBRID TELEMETRY CONFIGURATION ---
+        const googleScriptURL = 'https://script.google.com/macros/s/AKfycbyxw3i3TLv-t9QTWHDmWC731g5C6SsohX_XJKQ6ybJnGOBfjzKQjoZPM8xneCDfF94l/exec';
+        const whatsappNumber = '213697070026'; 
+
+        const form = document.getElementById('hybridOrderForm');
+        const btn = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            btn.disabled = true;
+            btn.innerText = "Processing Order...";
+
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const location = document.getElementById('location').value;
+            const deliveryType = document.getElementById('deliveryType').value;
+            
+            const select = document.getElementById('productSelect');
+            const selectedOption = select.options[select.selectedIndex];
+            const productName = selectedOption.getAttribute('data-name');
+            const itemRef = select.value; 
+            const currentPrice = selectedOption.getAttribute('data-price');
+
+            fetch(googleScriptURL, { method: 'POST', body: new FormData(form) })
+                .then(response => {
+                    console.log('Successfully logged to Google Sheets');
+                    
+                    const message = `*🆕 NEW ORDER RECEIVED* \n\n` +
+                                    `👤 *Name:* ${name}\n` +
+                                    `📞 *Phone:* ${phone}\n` +
+                                    `📧 *Email:* ${email}\n` +
+                                    `📍 *Location:* ${location}\n` +
+                                    `🚚 *Delivery Type:* ${deliveryType}\n\n` + 
+                                    `🛍️ *Product Name:* ${productName}\n` +
+                                    `📦 *Item Reference:* ${itemRef}\n` +
+                                    `💰 *Total Price:* ${currentPrice}\n\n` +
+                                    `Please confirm my shipping details directly!`;
+
+                    const encodedMessage = encodeURIComponent(message);
+                    const whatsappURL = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
+
+                    form.reset();
+                    btn.disabled = false;
+                    btn.innerText = "Confirm & Send via WhatsApp";
+
+                    window.open(whatsappURL, '_blank');
+                })
+                .catch(error => {
+                    alert("Error connection failed. Please try submitting again.");
+                    console.error('Error logging data:', error.message);
+                    btn.disabled = false;
+                    btn.innerText = "Confirm & Send via WhatsApp";
+                });
+        });
+    </script>
+</body>
+</html>
